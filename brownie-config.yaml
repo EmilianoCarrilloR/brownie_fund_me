@@ -1,0 +1,31 @@
+dependencies:
+  # Nomenclature logic: - <organization/repo>@<version>
+  - smartcontractkit/chainlink-brownie-contracts@1.1.1 #we manually choose version 1.1.1 from the github repository 
+compiler:
+  solc:
+    remappings:
+      - '@chainlink=smartcontractkit/chainlink-brownie-contracts@1.1.1'
+
+dotenv: .env
+
+# Here below is where we will add diferent price feed addresses for each of the different networks which deploy.py can refer to.
+networks:
+  # default: development --> in this case we would actively define that it is always set to "development", but we could set it to be "ganache-local", "rinkeby", etc...
+  rinkeby:
+    eth_usd_price_feed: '0x8A753747A1Fa494EC906cE90E9f37563A8AF630e' # This is the rinkeby net Eth / USD Data Feed address. https://docs.chain.link/docs/ethereum-addresses/
+    verify: True
+  # for forking, we will put in here the mainnet price feed address obrained from docs.chain.link, section Ethereum price feeds.
+  mainnet-fork-dev:
+    eth_usd_price_feed: '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419' # This is the Ethereum mainnet net Eth / USD Data Feed address. https://docs.chain.link/docs/ethereum-addresses/
+    verify: False
+  
+# Here below we just create the "go-to" information so that, when using local networks, we don´t verify
+  development:
+    verify: False
+  ganache-local:
+    verify: False
+  # kovan:
+  # mainnet: --> we can have any number of network flags we want depending on where we want to run
+
+wallets:
+  from_key: ${PRIVATE_KEY} #in a .yaml file, if we surround a string with a $ sign and brackets, it transforms it into an environment variable. 
